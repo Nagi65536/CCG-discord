@@ -19,6 +19,7 @@ function sPadding(NUM, LEN) {
 }
 
 function aggregation(gamemode, message, row) {
+    const date = moment().local().format('YYYY-MM-DD HH:mm:ss');
     const guildId = message.guild.id;
     const channelId = message.channel.id;
     const colorcodeC = row.colorcode;
@@ -64,5 +65,7 @@ function aggregation(gamemode, message, row) {
         message.channel.send(text)
         db.run(`DELETE FROM data WHERE guildId = ${guildId} AND channelId = ${channelId}`);
         db.run(`DELETE FROM ${gamemode} WHERE guildId = ${guildId} AND channelId = ${channelId}`);
+        db.run(`DELETE FROM winner WHERE guildId = ${guildId} AND channelId = ${channelId}`);
+        db.run(`INSERT INTO winner(date, guildId, channelId, userId, userName) VALUES("${date}", "${guildId}", "${channelId}", "${res[0].userId}", "${res[0].userName}")`);
     });
 }

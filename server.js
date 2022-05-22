@@ -57,15 +57,16 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 
 client.on('message', message => {
     if (message.author.bot) return;
-
     const prefix = '!'
     const [command, ...args] = message.content.slice(prefix.length).split(/\s+/)
 
-    if (message.content.match('^#([a-zA-Z0-9]{6})$')) {
+    src.winner.winnerc(message);
+    if (message.content.match('^#([a-fA-F0-9]{6})$')) {
         src.getcc.getcolorcodec(message);
 
     } else if (message.content.match('^#')) {
-        message.channel.send('それはカラーコードじゃない!!!')
+        message.react('❌')
+        message.channel.send('カラーコードじゃない!!!');
 
     } else if (command === 'tcc') {
         if (args[0] == 'help') {
@@ -85,7 +86,7 @@ client.on("guildCreate", guild => {
             VALUES("${date}", "${guildId}")`);
 
     try {
-        client.channels.cache.get("977519789327126570").send({
+        client.channels.cache.get("977890366378364978").send({
             embed: {
                 title: "サーバー参加Log",
                 color: 7506394,

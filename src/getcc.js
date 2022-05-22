@@ -12,7 +12,7 @@ exports.getcolorcodec = function (message) {
     const guildId = message.guild.id;
     const channelId = message.channel.id;
     const userId = message.author.id;
-    const userName = message.author.username
+    const userName = message.author.username;
     const colorcode = message.content.substr(1, 6);
 
     db.get(`SELECT * FROM data WHERE guildId = ${guildId} AND channelId = ${channelId}`, (err, row) => {
@@ -24,4 +24,5 @@ exports.getcolorcodec = function (message) {
                 VALUES("${date}", ${guildId}, "${channelId}", "${userId}", "${userName}", "${colorcode}")`);
         }
     });
+    message.react('🤔')
 }
