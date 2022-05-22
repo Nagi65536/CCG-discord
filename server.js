@@ -72,12 +72,12 @@ client.on('message', message => {
         if (args[0] == 'help') {
             src.help.helpc(message);
         } else if (args[0] == 'fin'){
-            src
+            src.finish.finishc(message);
         } else if (args[0] == 'oneshot' || args[0] == 1) {
             src.oneshot.oneshotc(message);
         }
     } else if (message.content.match(/check/)) {
-        src.finish.finishc(message);
+        src.finish.checkc(message);
     }
 });
 

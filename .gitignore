@@ -2,3 +2,4 @@ memo
 .DS_Store
 node_modules
 memo.js
+images/*

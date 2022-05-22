@@ -2,7 +2,7 @@ const moment = require('moment');
 const sqlite3 = require("sqlite3");
 const db = new sqlite3.Database("./main.db");
 
-exports.finishc = function (message) {
+exports.checkc = function (message) {
     const guildId = message.guild.id;
     const channelId = message.channel.id;
 
@@ -11,6 +11,10 @@ exports.finishc = function (message) {
             aggregation('oneshot', message, row, guildId, channelId);
         }
     });
+}
+
+exports.finc = function (message) {
+    //TODO: fin
 }
 
 function sPadding(NUM, LEN) {
@@ -55,16 +59,22 @@ function aggregation(gamemode, message, row) {
             });
         });
 
-        res.sort((a, b) => a.point - b.point);
-        let text = `結果  #__${colorcodeC}__   --oneshot-- \n >>> `;
-        res.forEach((e, i) => {
-            text += `**${i + 1}**位 ${sPadding(e.point, 4)}点 ${e.userName}
+        if (res.length > 0) {
+
+            res.sort((a, b) => a.point - b.point);
+            let text = `結果  #__${colorcodeC}__   --oneshot-- \n >>> `;
+            res.forEach((e, i) => {
+                text += `**${i + 1}**位 ${sPadding(e.point, 4)}点 ${e.userName}
     #__${e.colorcode}__    R: ${sPadding(e.mep[0], 4)}   G: ${sPadding(e.mep[1], 4)}   B: ${sPadding(e.mep[2], 4)}\n`
-        })
-        message.channel.send(text)
-        db.run(`DELETE FROM data WHERE guildId = ${guildId} AND channelId = ${channelId}`);
-        db.run(`DELETE FROM ${gamemode} WHERE guildId = ${guildId} AND channelId = ${channelId}`);
-        db.run(`DELETE FROM winner WHERE guildId = ${guildId} AND channelId = ${channelId}`);
-        db.run(`INSERT INTO winner(date, guildId, channelId, userId, userName) VALUES("${date}", "${guildId}", "${channelId}", "${res[0].userId}", "${res[0].userName}")`);
+            })
+            message.channel.send(text)
+            db.run(`DELETE FROM data WHERE guildId = ${guildId} AND channelId = ${channelId}`);
+            db.run(`DELETE FROM ${gamemode} WHERE guildId = ${guildId} AND channelId = ${channelId}`);
+            db.run(`DELETE FROM winner WHERE guildId = ${guildId} AND channelId = ${channelId}`);
+            db.run(`INSERT INTO winner(date, guildId, channelId, userId, userName) VALUES("${date}", "${guildId}", "${channelId}", "${res[0].userId}", "${res[0].userName}")`);
+        } else {
+            message.react('🥺')
+            message.channel.send('だれも...');
+        }
     });
 }

@@ -15,6 +15,9 @@ exports.helpc = function (message) {
 > colorcode  -半角数字と半角英字(a~f)が使用できます
 
 > gamemode  -数字またはゲーム名を指定してください
+    0. training
+      回答したら次の問題がきます
+      "fin" を入力すると終了します
     1. oneshot
       一人一つカラーコードを入力し、誤差が小さい人が勝ちです
       "check" を入力すると結果が表示されます
