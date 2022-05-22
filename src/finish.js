@@ -7,7 +7,6 @@ exports.finishc = function (message) {
     const channelId = message.channel.id;
 
     db.get(`SELECT * FROM data WHERE guildId = ${guildId} AND channelId = ${channelId}`, (err, row) => {
-
         if (row.gamemode == 'oneshot') {
             aggregation('oneshot', message, row, guildId, channelId);
         }

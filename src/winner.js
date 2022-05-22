@@ -11,11 +11,13 @@ exports.winnerc = function (message) {
     const userName = message.author.username
 
     db.get(`SELECT * FROM winner WHERE guildId = ${guildId} AND channelId = ${channelId} AND userId = ${userId}`, (err, row) => {
-        message.react('⬜')
-        message.react('🟨')
-        message.react('🟧')
-        message.react('🟦')
-        message.react('🟥')
-        db.run(`DELETE FROM winner WHERE guildId = ${guildId} AND channelId = ${channelId}`);
+        if (row) {
+            message.react('⬜')
+            message.react('🟨')
+            message.react('🟧')
+            message.react('🟦')
+            message.react('🟥')
+            db.run(`DELETE FROM winner WHERE guildId = ${guildId} AND channelId = ${channelId}`);
+        }
     });
 }

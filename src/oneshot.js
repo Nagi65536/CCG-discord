@@ -20,7 +20,7 @@ exports.oneshotc = function (message) {
 
         message.channel.send(
             `\\\\\\ ONE SHOT START!!! ///\nカラーコードを一発で当てよ!`,
-            { files: ['https://dnsk.jp/wp/wp-content/uploads/2018/05/blog_01.jpg'] }
+            { files: [`./images/${colorcode}.png`] }
         )
     } catch (e) {
         message.channel.send('エラーが発生しました')

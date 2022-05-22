@@ -71,10 +71,12 @@ client.on('message', message => {
     } else if (command === 'tcc') {
         if (args[0] == 'help') {
             src.help.helpc(message);
+        } else if (args[0] == 'fin'){
+            src
         } else if (args[0] == 'oneshot' || args[0] == 1) {
             src.oneshot.oneshotc(message);
         }
-    } else if (message.content.match(/fin/)) {
+    } else if (message.content.match(/check/)) {
         src.finish.finishc(message);
     }
 });
