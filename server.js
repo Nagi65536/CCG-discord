@@ -85,7 +85,7 @@ client.on("guildCreate", guild => {
     const date = moment().local().format('YYYY-MM-DD HH:mm:ss');
     const guildId = guild.id;
     db.run(`INSERT INTO server(date, guild) \
-            VALUES("${date}", "${guildId}")`);
+            VALUES("${date}", "${guildId}")`)
 
     try {
         client.channels.cache.get("977890366378364978").send({
