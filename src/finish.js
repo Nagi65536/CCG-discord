@@ -62,6 +62,7 @@ function aggregation(gamemode, message, row) {
     #__${e.colorcode}__    R: ${sPadding(e.mep[0], 4)}   G: ${sPadding(e.mep[1], 4)}   B: ${sPadding(e.mep[2], 4)}\n`
         })
         message.channel.send(text)
+        db.run(`DELETE FROM data WHERE guildId = ${guildId} AND channelId = ${channelId}`);
         db.run(`DELETE FROM ${gamemode} WHERE guildId = ${guildId} AND channelId = ${channelId}`);
     });
 }
