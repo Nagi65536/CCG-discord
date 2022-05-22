@@ -2,15 +2,24 @@ const http = require('http');
 const moment = require('moment');
 const querystring = require('querystring');
 const discord = require('discord.js');
-const events = require('./events.js')
 const sqlite3 = require("sqlite3");
+const fs = require('fs');
+const path = require('path');
+const { scryptSync } = require('crypto');
+
+let src = {};
+fs.readdir('./src/.', (err, files) => {
+    files.forEach(file => {
+        base = path.basename(file, path.extname(file));
+        src[base] = require('./src/' + file)
+    });
+});
+
 const client = new discord.Client();
 const db = new sqlite3.Database("./main.db");
 
 db.run("CREATE TABLE if not exists server \
     (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, guild TEXT)");
-
-events.forEach(({ name, handler }) => client.on(name, handler));
 
 http.createServer(function (req, res) {
     if (req.method == 'POST') {
@@ -45,6 +54,29 @@ client.on('ready', message => {
 });
 
 client.login(process.env.DISCORD_BOT_TOKEN);
+
+client.on('message', message => {
+    if (message.author.bot) return;
+
+    const prefix = '!'
+    const [command, ...args] = message.content.slice(prefix.length).split(/\s+/)
+
+    if (message.content.match('^#([a-zA-Z0-9]{6})$')) {
+        src.getcc.getcolorcodec(message);
+
+    } else if (message.content.match('^#')) {
+        message.channel.send('それはカラーコードじゃない!!!')
+
+    } else if (command === 'tcc') {
+        if (args[0] == 'help') {
+            src.help.helpc(message);
+        } else if (args[0] == 'oneshot' || args[0] == 1) {
+            src.oneshot.oneshotc(message);
+        }
+    } else if (message.content.match(/fin/)) {
+        src.finish.finishc(message);
+    }
+});
 
 client.on("guildCreate", guild => {
     const date = moment().local().format('YYYY-MM-DD HH:mm:ss');
@@ -112,8 +144,4 @@ client.on("guildDelete", guild => {
     } catch (e) {
         console.log(e.name);
     }
-});
-
-client.on('ready', message => {
-    client.user.setPresence({ game: { name: 'ColorCode!! ' } });
 });
