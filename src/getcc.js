@@ -16,6 +16,7 @@ exports.getcolorcodec = function (message) {
     db.get(`SELECT * FROM data WHERE guildId = ${guildId} AND channelId = ${channelId}`, (err, row) => {
         if (row.gamemode == 'training') {
             training.trainingc(message);
+            
         } else if (row.gamemode == 'oneshot') {
             db.each(`SELECT * FROM oneshot WHERE guildId = ${guildId} AND channelId = ${channelId} AND userId = ${userId}`, (err, row2) => {
                 db.run(`DELETE FROM oneshot WHERE id = ${row2.id}`);
@@ -24,7 +25,6 @@ exports.getcolorcodec = function (message) {
                 VALUES("${date}", ${guildId}, "${channelId}", "${userId}", "${userName}", "${colorcode}")`);
             message.react('🤔')
         } else {
-            console.log("普通にカラーコード生成", colorcode);
             generatecc.generateImage(colorcode)
             message.channel.send({ files: [`./images/${colorcode}.png`] });
         }

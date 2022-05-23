@@ -9,14 +9,10 @@ exports.trainingc = function (message) {
         const date = moment().local().format('YYYY-MM-DD HH:mm:ss');
         const guildId = message.guild.id;
         const channelId = message.channel.id;
-        const gamemode = 'training';
-        const colorcode = generatecc.generateCC()
+        const colorcode = generatecc.generateCC();
 
-        db.run(`UPDATE data SET date="${date}", colorcode=${colorcode} WHERE guildId="${guildId}" AND channelId="${channelId}"`);
+        // db.run(`UPDATE data SET date="${date}", colorcode=${colorcode} WHERE guildId="${guildId}" AND channelId="${channelId}"`);
 
-        message.channel.send(
-            { files: [`./images/${colorcode}.png`] }
-        );
     } catch (e) {
         message.channel.send('エラーが発生しました');
     }
@@ -25,10 +21,10 @@ exports.trainingc = function (message) {
 exports.trainingStart = function (message) {
     try {
         const date = moment().local().format('YYYY-MM-DD HH:mm:ss');
+        const colorcode = generatecc.generateCC()
         const guildId = message.guild.id;
         const channelId = message.channel.id;
         const gamemode = 'training';
-        const colorcode = generatecc.generateCC()
         
         db.run(`DELETE from data WHERE guildId="${guildId}" AND channelId="${channelId}"`);
         
