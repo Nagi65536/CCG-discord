@@ -64,10 +64,10 @@ client.on('message', message => {
     if (command === 'tcc') {
         if (args[0] == 'help') {
             src.help.helpc(message);
-        } else if (args[0] == 'training' || args[0] == 0) {
+        } else if (args[0] == 'training' || args[0] === "0") {
             src.training.trainingStart(message);
 
-        } else if (args[0] == 'oneshot' || args[0] == 1) {
+        } else if (args[0] == 'oneshot' || args[0] === "1") {
             src.oneshot.oneshotc(message);
 
         } else if (args[0] == 'notice') {
@@ -80,7 +80,7 @@ client.on('message', message => {
             } else {
                 src.notice.noticeAdd(message);
             }
-        } 
+        }
     } else if (message.content.match('^#([a-fA-F0-9]{6})$')) {
         src.getcc.getcolorcodec(message);
 
@@ -90,7 +90,7 @@ client.on('message', message => {
 
     } else if (message.content.match(/check/)) {
         src.finish.checkc(message);
-    }else if (message.content.match(/fin/)) {
+    } else if (message.content.match(/fin/)) {
         src.finish.finc(message);
     }
 });
