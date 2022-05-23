@@ -61,33 +61,37 @@ client.on('message', message => {
     const [command, ...args] = message.content.slice(prefix.length).split(/\s+/)
 
     src.winner.winnerc(message);
-    if (message.content.match('^#([a-fA-F0-9]{6})$')) {
-        src.getcc.getcolorcodec(message);
-
-    } else if (message.content.match('^#')) {
-        message.react('❌')
-        message.channel.send('カラーコードじゃない!!!');
-
-    } else if (command === 'tcc') {
+    if (command === 'tcc') {
         if (args[0] == 'help') {
             src.help.helpc(message);
-        } else if (args[0] == 'fin'){
-            src.finish.finishc(message);
+        } else if (args[0] == 'training' || args[0] == 0) {
+            src.training.trainingStart(message);
+
         } else if (args[0] == 'oneshot' || args[0] == 1) {
             src.oneshot.oneshotc(message);
+
         } else if (args[0] == 'notice') {
             const guildId = message.guild.id;
-            
-            if (args[1] == 'rm'){
+
+            if (args[1] == 'rm') {
                 src.notice.noticeDel(guildId);
             } else if (args[1] == 'send') {
                 src.notice.noticec(guildId);
             } else {
                 src.notice.noticeAdd(message);
             }
-        }
+        } 
+    } else if (message.content.match('^#([a-fA-F0-9]{6})$')) {
+        src.getcc.getcolorcodec(message);
+
+    } else if (message.content.match('^#')) {
+        message.react('❌')
+        message.channel.send('カラーコードじゃない!!!');
+
     } else if (message.content.match(/check/)) {
         src.finish.checkc(message);
+    }else if (message.content.match(/fin/)) {
+        src.finish.finc(message);
     }
 });
 

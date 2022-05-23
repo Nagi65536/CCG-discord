@@ -30,7 +30,7 @@ exports.trainingStart = function (message) {
         const gamemode = 'training';
         const colorcode = generatecc.generateCC()
         
-        db.run(`DELETE from data WHERE guildId="${guildId}" AND channelId="${channelId}"`)
+        db.run(`DELETE from data WHERE guildId="${guildId}" AND channelId="${channelId}"`);
         
         db.run(`INSERT INTO data(date, guildId, channelId, gamemode, colorcode) \
             VALUES("${date}", ${guildId}, "${channelId}", "${gamemode}", "${colorcode}")`);
@@ -38,7 +38,7 @@ exports.trainingStart = function (message) {
         message.channel.send(
             `\\\\\\トレーニング開始！///\nカラーコードを答えよ\n`,
             { files: [`./images/${colorcode}.png`] }
-        )
+        );
     } catch (e) {
         message.channel.send('エラーが発生しました')
     }

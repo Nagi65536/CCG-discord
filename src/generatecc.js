@@ -20,26 +20,31 @@ exports.generateCC = function () {
         colorcode += zeroPadding(rgb16[i], 2);
     }
 
-    db.each(`SELECT * FROM ccimages WHERE colorcode=${colorcode}`, (err, row) => {
-        if (row) {
-            db.run(`UPDATE ccimages SET date="${date}" WHERE colorcode="${colorcode}"`);
-        } else {
-            sharp({
-                create: {
-                    width: 100,
-                    height: 100,
-                    channels: 3,
-                    background: { r: rgb10[0], g: rgb10[1], b: rgb10[2] }
-                }
-            }).toFile(`./images/${colorcode}.png`)
+    sharp({
+        create: {
+            width: 100,
+            height: 100,
+            channels: 3,
+            background: { r: rgb10[0], g: rgb10[1], b: rgb10[2] }
         }
-    });
-
-
-    db.run(`INSERT INTO ccimages(date, colorcode) VALUES \
-        ("${date}", "${colorcode}")`);
+    }).toFile(`./images/${colorcode}.png`);
+    db.run(`UPDATE ccimages SET date="${date}" WHERE colorcode="${colorcode}"`);
+    db.run(`INSERT INTO ccimages(date, colorcode) VALUES  ("${date}", "${colorcode}")`);
 
     return colorcode;
+}
+
+exports.generateImage = function (colorcode) {
+    sharp({
+        create: {
+            width: 100,
+            height: 100,
+            channels: 3,
+            background: { r: rgb10[0], g: rgb10[1], b: rgb10[2] }
+        }
+    }).toFile(`./images/${colorcode}.png`);
+    db.run(`UPDATE ccimages SET date="${date}" WHERE colorcode="${colorcode}"`);
+    db.run(`INSERT INTO ccimages(date, colorcode) VALUES  ("${date}", "${colorcode}")`);
 }
 
 function zeroPadding(NUM, LEN) {

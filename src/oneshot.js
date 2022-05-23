@@ -16,6 +16,7 @@ exports.oneshotc = function (message) {
         const gamemode = 'oneshot';
         const colorcode = generatecc.generateCC()
         
+        
         db.run(`DELETE from data WHERE guildId="${guildId}" AND channelId="${channelId}"`)
 
         db.run(`INSERT INTO data(date, guildId, channelId, gamemode, colorcode) \

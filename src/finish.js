@@ -16,7 +16,8 @@ exports.checkc = function (message) {
 exports.finc = function (message) {
     const guildId = message.guild.id;
     const channelId = message.channel.id;
-    const tables = [data, oneshot]
+    const tables = [
+        'data', 'oneshot']
     
     tables.forEach(ele => {
         db.run(`DELETE FROM ${ele} WHERE guildId="${guildId}" AND channelId="${channelId}"`);
