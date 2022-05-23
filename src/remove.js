@@ -31,7 +31,5 @@ exports.removevc = function () {
 
 
 exports.deldata = function(guildId) {
-    db.run(`DELETE FROM server WHERE guildId = "${guildId}"`);
-    db.run(`DELETE FROM data WHERE guildId = "${guildId}"`);
-    db.run(`DELETE FROM oneshot WHERE guildId = "${guildId}"`);
+    db.run(`DELETE FROM * WHERE guildId = "${guildId}"`);
 }
