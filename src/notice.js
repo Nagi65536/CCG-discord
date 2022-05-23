@@ -33,8 +33,10 @@ exports.noticec = function (message) {
     const guildId = message.guild.id;
     const channelId = message.channel.id;
     
-    db.each(`SELECT * FROM notice WHERE guildId = ${guildId}` , (err, row) => {
-        if (row) client.channels.cache.get(row.channelId)
-            .send('お知らせの内容です');
-    });
+    if (guildId == ADMIN_GUILD){
+        db.each(`SELECT * FROM notice WHERE guildId = ${guildId}` , (err, row) => {
+            if (row) client.channels.cache.get(row.channelId)
+                .send('お知らせの内容です');
+        });
+    }
 }
