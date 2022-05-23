@@ -75,6 +75,16 @@ client.on('message', message => {
             src.finish.finishc(message);
         } else if (args[0] == 'oneshot' || args[0] == 1) {
             src.oneshot.oneshotc(message);
+        }　else if (args[0] == 'notice') {
+            const guildId = message.guild.id;
+            
+            if (args[1] == 'rm'){
+                src.notice.noticeDel(guildId);
+            } else if (args[1] == 'send') {
+                src.notice.noticec(guildId);
+            } else {
+                src.notice.noticeAdd(message);
+            }
         }
     } else if (message.content.match(/check/)) {
         src.finish.checkc(message);
