@@ -11,7 +11,7 @@ exports.trainingc = function (message) {
         const channelId = message.channel.id;
         const colorcode = generatecc.generateCC();
 
-        // db.run(`UPDATE data SET date="${date}", colorcode=${colorcode} WHERE guildId="${guildId}" AND channelId="${channelId}"`);
+        db.run(`UPDATE data SET date="${date}", colorcode=${colorcode} WHERE guildId="${guildId}" AND channelId="${channelId}"`);
 
     } catch (e) {
         message.channel.send('エラーが発生しました');

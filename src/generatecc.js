@@ -3,8 +3,10 @@ const sqlite3 = require("sqlite3");
 const sharp = require('sharp');
 const db = new sqlite3.Database("./main.db");
 
+
 db.run("CREATE TABLE if not exists ccimages \
     (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, colorcode TEXT)");
+
 
 exports.generateCC = function () {
     const date = moment().local().format('YYYY-MM-DD HH:mm:ss');
@@ -46,6 +48,7 @@ exports.generateImage = function (colorcode) {
     db.run(`UPDATE ccimages SET date="${date}" WHERE colorcode="${colorcode}"`);
     db.run(`INSERT INTO ccimages(date, colorcode) VALUES  ("${date}", "${colorcode}")`);
 }
+
 
 function zeroPadding(NUM, LEN) {
     return (Array(LEN).join('0') + NUM).slice(-LEN);
