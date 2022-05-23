@@ -21,6 +21,8 @@ exports.getcolorcodec = function (message) {
                 VALUES("${date}", ${guildId}, "${channelId}", "${userId}", "${userName}", "${colorcode}")`);
         } else if (row.gamemode == 'training') {
             training.trainingc(message);
+        } else {
+            meesage.channel.send({ files: [`./images/${colorcode}.png`] });
         }
     });
     message.react('🤔')
