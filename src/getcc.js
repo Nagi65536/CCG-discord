@@ -1,4 +1,5 @@
 const moment = require('moment');
+const training = require('./training.js');
 const sqlite3 = require("sqlite3");
 const db = new sqlite3.Database("./main.db");
 
@@ -18,6 +19,8 @@ exports.getcolorcodec = function (message) {
             });
             db.run(`INSERT INTO oneshot(date, guildId, channelId, userId, userName, colorcode) \
                 VALUES("${date}", ${guildId}, "${channelId}", "${userId}", "${userName}", "${colorcode}")`);
+        } else if (row.gamemode == 'training') {
+            training.trainingc(message);
         }
     });
     message.react('🤔')

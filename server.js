@@ -23,7 +23,7 @@ db.run("CREATE TABLE if not exists server \
 
 http.createServer(function (req, res) {
     if (req.method == 'POST') {
-        var data = "";
+        let data = "";
         req.on('data', function (chunk) {
             data += chunk;
         });
@@ -32,7 +32,7 @@ http.createServer(function (req, res) {
                 res.end("No post data");
                 return;
             }
-            var dataObject = querystring.parse(data);
+            let dataObject = querystring.parse(data);
             console.log("post:" + dataObject.type);
             if (dataObject.type == "wake") {
                 console.log("Woke up in post");
@@ -75,7 +75,7 @@ client.on('message', message => {
             src.finish.finishc(message);
         } else if (args[0] == 'oneshot' || args[0] == 1) {
             src.oneshot.oneshotc(message);
-        }　else if (args[0] == 'notice') {
+        } else if (args[0] == 'notice') {
             const guildId = message.guild.id;
             
             if (args[1] == 'rm'){
@@ -88,10 +88,6 @@ client.on('message', message => {
         }
     } else if (message.content.match(/check/)) {
         src.finish.checkc(message);
-    }　else if (message.content.match(/notice/)) {
-        src.notice.noticeAdd();
-    }  else if (message.content.match(/notice/)) {
-        src.notice.noticec(message);
     }
 });
 
