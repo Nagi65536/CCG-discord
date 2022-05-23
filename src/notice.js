@@ -20,16 +20,11 @@ exports.noticeAdd = function (message) {
     message.channel.send('ここにお知らせを送ります')
 }
 
-exports.noticeDel = function (message) {
-    const guildId = message.guild.id;
-    
+exports.noticeDel = function (guildId) {
     db.run(`DELETE from notice WHERE id = ${guildId}`)
 }
 
-exports.noticec = function (message) {
-    const guildId = message.guild.id;
-    const channelId = message.channel.id;
-    
+exports.noticec = function (guildId) {
     if (guildId == ADMIN_GUILD){
         db.each(`SELECT * FROM notice WHERE guildId = ${guildId}` , (err, row) => {
             if (row) client.channels.cache.get(row.channelId)
