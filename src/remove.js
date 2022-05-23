@@ -3,7 +3,7 @@ const sqlite3 = require("sqlite3");
 const fs = require('fs');
 const db = new sqlite3.Database("./main.db");
 
-exports.removevc = function () {
+exports.removec = function () {
     const date = moment().local().format('YYYY-MM-DD HH:mm:ss');
     let reg_date = null;
     let diff = null;
