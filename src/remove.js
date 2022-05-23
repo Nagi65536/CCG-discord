@@ -3,7 +3,7 @@ const sqlite3 = require("sqlite3");
 const fs = require('fs');
 const db = new sqlite3.Database("./main.db");
 
-exports.generateCC = function () {
+exports.removevc = function () {
     const date = moment().local().format('YYYY-MM-DD HH:mm:ss');
     let reg_date = null;
     let diff = null;
@@ -27,4 +27,9 @@ exports.generateCC = function () {
             fs.unlinkSync(`images/${row.colorcode}.png`);
         }
     });
+}
+
+
+exports.deldata = function(guildId) {
+    db.run(`DELETE FROM * WHERE guildId = "${guildId}"`);
 }

@@ -75,9 +75,23 @@ client.on('message', message => {
             src.finish.finishc(message);
         } else if (args[0] == 'oneshot' || args[0] == 1) {
             src.oneshot.oneshotc(message);
+        }　else if (args[0] == 'notice') {
+            const guildId = message.guild.id;
+            
+            if (args[1] == 'rm'){
+                src.notice.noticeDel(guildId);
+            } else if (args[1] == 'send') {
+                src.notice.noticec(guildId);
+            } else {
+                src.notice.noticeAdd(message);
+            }
         }
     } else if (message.content.match(/check/)) {
         src.finish.checkc(message);
+    }　else if (message.content.match(/notice/)) {
+        src.notice.noticeAdd();
+    }  else if (message.content.match(/notice/)) {
+        src.notice.noticec(message);
     }
 });
 
@@ -117,7 +131,7 @@ client.on("guildCreate", guild => {
 client.on("guildDelete", guild => {
     const guildId = guild.id;
     try {
-        db.run(`DELETE FROM server WHERE guild = "${guildId}"`);
+        src.remove.deldata(guildId);
     } catch (e) {
         console.log(e.name);
     }

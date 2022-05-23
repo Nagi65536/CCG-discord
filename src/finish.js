@@ -14,7 +14,15 @@ exports.checkc = function (message) {
 }
 
 exports.finc = function (message) {
-    //TODO: fin
+    const guildId = message.guild.id;
+    const channelId = message.channel.id;
+    const tables = [data, oneshot]
+    
+    tables.forEach(ele => {
+        db.run(`DELETE FROM ${ele} WHERE guildId="${guildId}" AND channelId="${channelId}"`);
+    })
+    
+    message.channel.send('強制終了しました');
 }
 
 function sPadding(NUM, LEN) {
