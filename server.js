@@ -117,7 +117,7 @@ client.on("guildCreate", guild => {
 client.on("guildDelete", guild => {
     const guildId = guild.id;
     try {
-        db.run(`DELETE FROM server WHERE guild = "${guildId}"`);
+        src.remove.deldata(guildId);
     } catch (e) {
         console.log(e.name);
     }
