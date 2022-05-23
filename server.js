@@ -78,6 +78,10 @@ client.on('message', message => {
         }
     } else if (message.content.match(/check/)) {
         src.finish.checkc(message);
+    }　else if (message.content.match(/notice/)) {
+        src.notice.noticeAdd();
+    }  else if (message.content.match(/notice/)) {
+        src.notice.noticec(message);
     }
 });
 
