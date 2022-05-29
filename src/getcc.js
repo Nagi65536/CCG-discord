@@ -1,8 +1,9 @@
 const moment = require('moment');
 const training = require('./training.js');
-const generatecc = require('./generatecc.js')
+const generatecc = require('./generatecc.js');
+const oneshot = require('./oneshot.js');
+const perfect = require('./perfect.js')
 const sqlite3 = require("sqlite3");
-const { text } = require('express');
 const db = new sqlite3.Database("./main.db");
 
 
@@ -20,12 +21,11 @@ exports.getcolorcodec = function (message) {
                 training.trainingc(message);
 
             } else if (row.gamemode == 'oneshot') {
-                db.each(`SELECT * FROM oneshot WHERE guildId = ${guildId} AND channelId = ${channelId} AND userId = ${userId}`, (err, row2) => {
-                    db.run(`DELETE FROM oneshot WHERE id = ${row2.id}`);
-                });
-                db.run(`INSERT INTO oneshot(date, guildId, channelId, userId, userName, colorcode) \
-                VALUES("${date}", ${guildId}, "${channelId}", "${userId}", "${userName}", "${colorcode}")`);
-                message.react('🤔');
+                oneshot.oneshotRecord(message);
+
+            } else if (row.gamemode == 'perfect') {
+                perfect.perfectJudg(message);
+                
             }
         } else {
             generatecc.generateImage(message, colorcode)

@@ -10,25 +10,28 @@ exports.generateCC = function (message, text) {
     const date = moment().local().format('YYYY-MM-DD HH:mm:ss');
     let rgb10 = []
     let rgb16 = []
+    let colorcode = '';
+    
     for (let i = 0; i < 3; i++) {
         rgb10[i] = Math.floor(Math.random() * 256);
         rgb16[i] = rgb10[i].toString(16);
     }
-    let colorcode = '';
-
+    
     for (let i = 0; i < rgb16.length; i++) {
         colorcode += zeroPadding(rgb16[i], 2);
     }
 
-    sharp({
-        create: {
-            width: 100,
-            height: 100,
-            channels: 3,
-            background: { r: rgb10[0], g: rgb10[1], b: rgb10[2] }
-        }
-    }).toFile(`./images/${colorcode}.png`);
-    const path = `./images/${colorcode}.png`
+    const path = `images/${colorcode}.png`;
+    if (!fs.existsSync(path)) {
+        sharp({
+            create: {
+                width: 100,
+                height: 100,
+                channels: 3,
+                background: { r: rgb10[0], g: rgb10[1], b: rgb10[2] }
+            }
+        }).toFile(`images/${colorcode}.png`);
+    }
     while (true) {
         if (fs.existsSync(path)) {
             message.channel.send(text, { files: [path] });
@@ -44,6 +47,7 @@ exports.generateCC = function (message, text) {
 
 exports.generateImage = function (message, colorcode) {
     const date = moment().local().format('YYYY-MM-DD HH:mm:ss');
+    const path = `images/${colorcode}.png`;
     let rgb10 = []
     let rgb16 = []
 
@@ -51,15 +55,25 @@ exports.generateImage = function (message, colorcode) {
         rgb10[i] = parseInt(colorcode.substring(2 * i, 2 * i + 2), 16);
         rgb16[i] = rgb10[i].toString(16)
     }
-    sharp({
-        create: {
-            width: 100,
-            height: 100,
-            channels: 3,
-            background: { r: rgb10[0], g: rgb10[1], b: rgb10[2] }
+    if (!fs.existsSync(path)) {
+        sharp({
+            create: {
+                width: 100,
+                height: 100,
+                channels: 3,
+                background: { r: rgb10[0], g: rgb10[1], b: rgb10[2] }
+            }
+        }).toFile(`images/${colorcode}.png`);
+    }
+
+    while (true) {
+        if (fs.existsSync(path)) {
+            message.channel.send({ files: [`images/${colorcode}.png`] });
+            break
+        } else {
+            sleep.sleep(1)
         }
-    }).toFile(`./images/${colorcode}.png`);
-    message.channel.send({ files: [`images/${colorcode}.png`] });
+    }
 
     db.run(`UPDATE ccimages SET date="${date}" WHERE colorcode="${colorcode}"`);
     db.run(`INSERT INTO ccimages(date, colorcode) VALUES  ("${date}", "${colorcode}")`);
@@ -79,15 +93,18 @@ exports.generateCCdm = function (message, text) {
         colorcode += zeroPadding(rgb16[i], 2);
     }
 
-    sharp({
-        create: {
-            width: 100,
-            height: 100,
-            channels: 3,
-            background: { r: rgb10[0], g: rgb10[1], b: rgb10[2] }
-        }
-    }).toFile(`./images/${colorcode}.png`);
-    const path = `./images/${colorcode}.png`
+    const path = `images/${colorcode}.png`;
+    if (!fs.existsSync(path)) {
+        sharp({
+            create: {
+                width: 100,
+                height: 100,
+                channels: 3,
+                background: { r: rgb10[0], g: rgb10[1], b: rgb10[2] }
+            }
+        }).toFile(`images/${colorcode}.png`);
+    }
+
     while (true) {
         if (fs.existsSync(path)) {
             message.author.send(text, { files: [path] });
@@ -99,6 +116,39 @@ exports.generateCCdm = function (message, text) {
     db.run(`INSERT INTO ccimages(date, colorcode) VALUES ("${date}", "${colorcode}")`);
 
     return colorcode;
+}
+
+exports.generateImagedm = function (message) {
+    const date = moment().local().format('YYYY-MM-DD HH:mm:ss');
+    const colorcode = message.content.substr(1, 6);
+    const path = `images/${colorcode}.png`;
+    let rgb10 = []
+    let rgb16 = []
+
+    for (let i = 0; i < 3; i++) {
+        rgb10[i] = parseInt(colorcode.substring(2 * i, 2 * i + 2), 16);
+        rgb16[i] = rgb10[i].toString(16)
+    }
+    if (!fs.existsSync(path)) {
+        sharp({
+            create: {
+                width: 100,
+                height: 100,
+                channels: 3,
+                background: { r: rgb10[0], g: rgb10[1], b: rgb10[2] }
+            }
+        }).toFile(`images/${colorcode}.png`);
+    }
+    while (true) {
+        if (fs.existsSync(path)) {
+            message.author.send({ files: [`images/${colorcode}.png`] });
+            break
+        } else {
+            sleep.sleep(1)
+        }
+    }
+
+    db.run(`INSERT INTO ccimages(date, colorcode) VALUES  ("${date}", "${colorcode}")`);
 }
 
 function zeroPadding(NUM, LEN) {

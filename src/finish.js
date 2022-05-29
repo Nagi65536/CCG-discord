@@ -26,6 +26,14 @@ exports.finc = function (message) {
     message.channel.send('強制終了しました');
 }
 
+exports.finDM = function (message) {
+    const authorId = message.author.id;
+    
+    db.run(`DELETE FROM dm WHERE authorId="${authorId}"`);
+    
+    message.author.send('終了しました');
+}
+
 exports.compare_cc = function (colorcodeC, colorcodeA) {
     let rgb10C = [];
     let rgb16C = [];

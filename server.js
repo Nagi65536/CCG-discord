@@ -81,11 +81,16 @@ client.on('message', message => {
     if (message.channel.type == 'dm') {
         if (command === 'start') {
             src.training.trainingDMStart(message);
+        } else if (message.content.match(/fin/)) {
+            src.finish.finDM(message);
         } else if (message.content.match('^#([a-fA-F0-9]{6})$')) {
             src.training.trainingDM(message);
         } else if (message.content.match('^#')) {
             message.react('❌')
             message.author.send('カラーコードじゃない!!!');
+        } else {
+            src.remove.removec();
+            message.author.send('>>> Please send "start" or ColorCode')
         }
 
     } else {
@@ -98,6 +103,9 @@ client.on('message', message => {
 
             } else if (args[0] == 'oneshot' || args[0] === "1") {
                 src.oneshot.oneshotc(message);
+
+            }else if (args[0] == 'perfect' || args[0] === "2") {
+                src.perfect.perfectc(message);
 
             } else if (args[0] == 'notice') {
                 const guildId = message.guild.id;

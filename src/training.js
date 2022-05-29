@@ -31,7 +31,7 @@ exports.trainingStart = function (message) {
         const channelId = message.channel.id;
         const gamemode = 'training';
 
-        const text = `\\\\\\トレーニング開始！///\nカラーコードを答えよ\n`
+        const text = `TRAINING START!!\nカラーコードを答えよ\n`
         const colorcode = generatecc.generateCC(message, text)
 
         db.run(`DELETE from data WHERE guildId="${guildId}" AND channelId="${channelId}"`);
@@ -57,7 +57,7 @@ exports.trainingDM = function (message) {
                 const colorcode = generatecc.generateCCdm(message, text);
                 db.run(`UPDATE dm SET date="${date}", colorcode="${colorcode}" WHERE authorId="${authorId}"`)
             } else {
-                message.author.send('>>> No data available.\nPlease send "start"')
+                generatecc.generateImagedm(message);
             }
         });
 
@@ -70,9 +70,7 @@ exports.trainingDMStart = function (message) {
     try {
         const date = moment().local().format('YYYY-MM-DD HH:mm:ss');
         const authorId = message.author.id;
-        const colorcodeA = message.content.substring(1, 7).toLowerCase();
-
-        const text = `\\\\\\トレーニング開始！///\nカラーコードを答えよ\n`
+        const text = `TRAINING START!!\nカラーコードを答えよ\n`
         const colorcode = generatecc.generateCCdm(message, text)
 
         db.run(`DELETE from dm WHERE authorId="${authorId}"`);

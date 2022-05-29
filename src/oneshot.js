@@ -11,7 +11,7 @@ exports.oneshotc = function (message) {
         const channelId = message.channel.id;
         const gamemode = 'oneshot';
         
-        const text = `\\\\\\ ONE SHOT START!!! ///\nカラーコードを一発で当てよ!`
+        const text = `ONE SHOT START!!!\nカラーコードを一発で当てよ!`
         const colorcode = generatecc.generateCC(message, text)
         
         db.run(`DELETE from data WHERE guildId="${guildId}" AND channelId="${channelId}"`)
@@ -22,4 +22,13 @@ exports.oneshotc = function (message) {
     } catch (e) {
         message.channel.send('エラーが発生しました')
     }
+}
+
+exports.oneshotRecord = function (message) {
+    db.each(`SELECT * FROM oneshot WHERE guildId = ${guildId} AND channelId = ${channelId} AND userId = ${userId}`, (err, row2) => {
+        db.run(`DELETE FROM oneshot WHERE id = ${row2.id}`);
+    });
+    db.run(`INSERT INTO oneshot(date, guildId, channelId, userId, userName, colorcode) \
+    VALUES("${date}", ${guildId}, "${channelId}", "${userId}", "${userName}", "${colorcode}")`);
+    message.react('🤔');
 }

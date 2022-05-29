@@ -18,16 +18,17 @@ exports.removec = function () {
         });
     });
 
-    db.each(`SELECT id, colorcode FROM ccimages`, (err, row) => {
+    db.each(`SELECT * FROM ccimages`, (err, row) => {
         reg_date = moment(row.date);
         diff = date.diff(reg_date, 'hours');
 
-        if (diff >= 1) {
+        if (diff >= 0) {
             try {
                 db.run(`DELETE FROM ccimages WHERE id = ${row.id}`);
                 fs.unlinkSync(`images/${row.colorcode}.png`);
+                console.log('画像を削除しました', row.colorcode);
             } catch (e) {
-                console.log('画像が見つかりません', row.id);
+                console.log('画像が見つかりません', row.colorcode);
             }
         }
     });
