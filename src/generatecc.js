@@ -36,7 +36,9 @@ exports.generateCC = function (message, text) {
         if (fs.existsSync(path)) {
             message.channel.send(text, { files: [path] });
             break
-        } 
+        } else {
+            sleep.sleep(1)
+        }
     }
     db.run(`UPDATE ccimages SET date="${date}" WHERE colorcode="${colorcode}"`);
 
@@ -68,7 +70,9 @@ exports.generateImage = function (message, colorcode) {
         if (fs.existsSync(path)) {
             message.channel.send({ files: [`images/${colorcode}.png`] });
             break
-        } 
+        } else {
+            sleep.sleep(1)
+        }
     }
 
     db.run(`UPDATE ccimages SET date="${date}" WHERE colorcode="${colorcode}"`);
@@ -105,7 +109,9 @@ exports.generateCCImage = function (message, text) {
         if (fs.existsSync(path)) {
             message.channel.send(`#${colorcode}`, { files: [path] });
             break
-        } 
+        } else {
+            sleep.sleep(1)
+        }
     }
     db.run(`UPDATE ccimages SET date="${date}" WHERE colorcode="${colorcode}"`);
 
@@ -142,7 +148,9 @@ exports.generateCCdm = function (message, text) {
         if (fs.existsSync(path)) {
             message.author.send(text, { files: [path] });
             break
-        } 
+        } else {
+            sleep.sleep(1)
+        }
     }
     db.run(`INSERT INTO ccimages(date, colorcode) VALUES ("${date}", "${colorcode}")`);
 
@@ -174,7 +182,9 @@ exports.generateImagedm = function (message) {
         if (fs.existsSync(path)) {
             message.author.send({ files: [`images/${colorcode}.png`] });
             break
-        } 
+        } else {
+            sleep.sleep(1)
+        }
     }
 
     db.run(`INSERT INTO ccimages(date, colorcode) VALUES  ("${date}", "${colorcode}")`);

@@ -66,7 +66,8 @@ http.createServer(function (req, res) {
 
 client.on('ready', message => {
     console.log('⚡︎ Bot準備完了');
-    client.user.setPresence({ activity: { name: "I love COLOR CODE!!" }, status: "online" });
+    client.user.setPresence({ activity: { name: "That'sColorCode!!" }, status: "online" });
+    src.remove.removeall();
 });
 
 client.login(process.env.DISCORD_BOT_TOKEN);

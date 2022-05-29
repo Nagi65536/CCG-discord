@@ -34,6 +34,28 @@ exports.removec = function () {
     });
 }
 
+exports.removeall = function () {
+    const date = moment(moment().local().format('YYYY-MM-DD HH:mm:ss'));
+    let reg_date = null;
+    const tables = ['data', 'oneshot', 'dm']
+
+    fs.readdir('images', function (err, files) {
+        files.forEach(function (file) {
+            fs.unlink(`images/${file}`, function (err) {
+                if (err) {
+                    throw (err);
+                }
+                console.log(`deleted ${file}`);
+            });
+        });
+
+        db.run(`DELETE FROM ccimages`);
+        db.run(`DELETE FROM data`);
+        db.run(`DELETE FROM dm`);
+        db.run(`DELETE FROM oneshot`);
+        db.run(`DELETE FROM winner`);
+    });
+}
 
 exports.deldata = function (guildId) {
     db.run(`DELETE FROM * WHERE guildId = "${guildId}"`);
