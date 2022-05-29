@@ -8,6 +8,7 @@ exports.removec = function () {
     const date = moment(moment().local().format('YYYY-MM-DD HH:mm:ss'));
     let reg_date = null;
     const tables = ['data', 'oneshot', 'dm']
+    let diff;
 
     tables.forEach(ele => {
         db.each(`SELECT id, date FROM ${ele}`, (err, row) => {
@@ -40,7 +41,7 @@ exports.removeall = function () {
     const tables = ['data', 'oneshot', 'dm']
 
     fs.readdir('images', function (err, files) {
-        files.forEach(function (file) {
+        files.forEach(file => {
             fs.unlink(`images/${file}`, function (err) {
                 if (err) {
                     throw (err);

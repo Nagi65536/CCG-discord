@@ -173,7 +173,7 @@ client.on("guildDelete", guild => {
         client.channels.cache.get("977519789327126570").send({
             embed: {
                 title: "サーバー脱退Log",
-                color: 000000,
+                color: 0,
                 timestamp: new Date(),
                 footer: {
                     icon_url: client.user.avatarURL,
