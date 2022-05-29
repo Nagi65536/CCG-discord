@@ -104,20 +104,24 @@ client.on('message', message => {
             } else if (args[0] == 'oneshot' || args[0] === "1") {
                 src.oneshot.oneshotc(message);
 
-            }else if (args[0] == 'perfect' || args[0] === "2") {
+            } else if (args[0] == 'perfect' || args[0] === "2") {
                 src.perfect.perfectc(message);
 
-            } else if (args[0] == 'notice') {
-                const guildId = message.guild.id;
+            } else if (args[0] == 'perfectH' || args[0] === "3") {
+                src.perfect.perfectHc(message);
 
-                if (args[1] == 'rm') {
-                    src.notice.noticeDel(guildId);
-                } else if (args[1] == 'send') {
-                    src.notice.noticec(guildId);
-                } else {
-                    src.notice.noticeAdd(message);
-                }
             }
+        } else if (args[0] == 'notice') {
+            const guildId = message.guild.id;
+
+            if (args[1] == 'rm') {
+                src.notice.noticeDel(guildId);
+            } else if (args[1] == 'send') {
+                src.notice.noticec(guildId);
+            } else {
+                src.notice.noticeAdd(message);
+            }
+
         } else if (message.content.match('^#([a-fA-F0-9]{6})$')) {
             src.getcc.getcolorcodec(message);
 

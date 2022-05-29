@@ -8,11 +8,8 @@ const db = new sqlite3.Database("./main.db");
 
 
 exports.getcolorcodec = function (message) {
-    const date = moment().local().format('YYYY-MM-DD HH:mm:ss');
     const guildId = message.guild.id;
     const channelId = message.channel.id;
-    const userId = message.author.id;
-    const userName = message.author.username;
     const colorcode = message.content.substr(1, 6);
 
     db.get(`SELECT * FROM data WHERE guildId = ${guildId} AND channelId = ${channelId}`, (err, row) => {
@@ -25,7 +22,10 @@ exports.getcolorcodec = function (message) {
 
             } else if (row.gamemode == 'perfect') {
                 perfect.perfectJudg(message);
-                
+     
+            } else if (row.gamemode == 'perfectH') {
+                perfect.perfectJudgH(message);
+     
             }
         } else {
             generatecc.generateImage(message, colorcode)

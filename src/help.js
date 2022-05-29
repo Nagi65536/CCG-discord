@@ -29,8 +29,9 @@ exports.helpc = function (message) {
     2. perfect
       カラーコードをピッタリ入力した人が勝ちです
     
-    3. perfect hard
-      perfect のヒントなしです
+    3. perfectH
+      perfect のハードモードです
+      ヒントは表示されません
     \`\`\` `
     )
 }

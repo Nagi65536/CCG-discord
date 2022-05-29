@@ -25,6 +25,13 @@ exports.oneshotc = function (message) {
 }
 
 exports.oneshotRecord = function (message) {
+    const date = moment().local().format('YYYY-MM-DD HH:mm:ss');
+    const guildId = message.guild.id;
+    const channelId = message.channel.id;
+    const userId = message.author.id;
+    const userName = message.author.username;
+    const colorcode = message.content.substr(1, 6);
+    
     db.each(`SELECT * FROM oneshot WHERE guildId = ${guildId} AND channelId = ${channelId} AND userId = ${userId}`, (err, row2) => {
         db.run(`DELETE FROM oneshot WHERE id = ${row2.id}`);
     });

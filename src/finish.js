@@ -58,10 +58,6 @@ exports.compare_cc = function (colorcodeC, colorcodeA) {
     return {r:r_mep, g:g_mep, b:g_mep, point:point}
 }
 
-function sPadding(NUM, LEN) {
-    return (Array(LEN).join(' ') + NUM).slice(-LEN);
-}
-
 function aggregation_oneshot(gamemode, message, row) {
     const date = moment().local().format('YYYY-MM-DD HH:mm:ss');
     const guildId = message.guild.id;
@@ -118,4 +114,8 @@ function aggregation_oneshot(gamemode, message, row) {
             message.channel.send('だれも...');
         }
     });
+}
+
+function sPadding(NUM, LEN) {
+    return (Array(LEN).join(' ') + NUM).slice(-LEN);
 }
