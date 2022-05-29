@@ -30,9 +30,6 @@ db.run("CREATE TABLE if not exists ccimages \
 db.run("CREATE TABLE if not exists winner \
     (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, guildId TEXT, channelId TEXT, userId TEXT,userName TEXT)");
 
-db.run("CREATE TABLE if not exists notice \
-    (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, guildId TEXT, channelId TEXT)");
-
 db.run("CREATE TABLE if not exists oneshot \
     (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, guildId TEXT, channelId TEXT, userId TEXT,userName TEXT, colorcode TEXT)");
 
@@ -110,16 +107,6 @@ client.on('message', message => {
             } else if (args[0] == 'perfectH' || args[0] === "3") {
                 src.perfect.perfectHc(message);
 
-            }
-        } else if (args[0] == 'notice') {
-            const guildId = message.guild.id;
-
-            if (args[1] == 'rm') {
-                src.notice.noticeDel(guildId);
-            } else if (args[1] == 'send') {
-                src.notice.noticec(guildId);
-            } else {
-                src.notice.noticeAdd(message);
             }
 
         } else if (message.content.match('^#([a-fA-F0-9]{6})$')) {

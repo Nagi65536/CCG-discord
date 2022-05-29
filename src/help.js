@@ -4,10 +4,6 @@ exports.helpc = function (message) {
 > コマンド
     !tcc [gamemode]
       指定したゲームを開始します
-      
-    !tcc notice (rm)
-      実行されたチャンネルにお知らせを送ります
-      "rm" をつけるとお知らせを停止します
     
     !tcc help
       ヘルプを表示します

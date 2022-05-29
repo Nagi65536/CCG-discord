@@ -9,6 +9,9 @@
   "scripts": {
     "start": "node server.js"
   },
+  "engines": {
+    "node": "17.x"
+  },
   "dependencies": {
     "discord.js": "^12.5.3",
     "express": "^4.17.1",
