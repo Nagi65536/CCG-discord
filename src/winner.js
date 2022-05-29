@@ -1,8 +1,7 @@
 const sqlite3 = require("sqlite3");
 const db = new sqlite3.Database("./main.db");
 
-db.run("CREATE TABLE if not exists winner \
-    (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, guildId TEXT, channelId TEXT, userId TEXT,userName TEXT)");
+
 
 exports.winnerc = function (message) {
     const guildId = message.guild.id;

@@ -2,8 +2,7 @@ const moment = require('moment');
 const sqlite3 = require("sqlite3");
 const db = new sqlite3.Database("./main.db");
 
-db.run("CREATE TABLE if not exists notice \
-    (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, guildId TEXT, channelId TEXT)");
+
 
 exports.noticeAdd = function (message) {
     const date = moment().local().format('YYYY-MM-DD HH:mm:ss');

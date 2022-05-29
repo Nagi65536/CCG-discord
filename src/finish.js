@@ -8,7 +8,7 @@ exports.checkc = function (message) {
 
     db.get(`SELECT * FROM data WHERE guildId = ${guildId} AND channelId = ${channelId}`, (err, row) => {
         if (row.gamemode == 'oneshot') {
-            aggregation('oneshot', message, row, guildId, channelId);
+            aggregation_oneshot('oneshot', message, row, guildId, channelId);
         }
     });
 }
@@ -26,11 +26,35 @@ exports.finc = function (message) {
     message.channel.send('強制終了しました');
 }
 
+exports.compare_cc = function (colorcodeC, colorcodeA) {
+    let rgb10C = [];
+    let rgb16C = [];
+    let rgb10A = [];
+    let rgb16A = [];
+
+    for (let i = 0; i < 3; i++) {
+        rgb10C[i] = parseInt(colorcodeC.substring(2 * i, 2 * i + 2), 16);
+        rgb16C[i] = rgb10C[i].toString(16)
+    }
+
+    for (let i = 0; i < 3; i++) {
+        rgb10A[i] = parseInt(colorcodeA.substring(2 * i, 2 * i + 2), 16);
+        rgb16A[i] = rgb10A[i].toString(16)
+    }
+
+    r_mep = rgb10A[0] - rgb10C[0]
+    g_mep = rgb10A[1] - rgb10C[1]
+    b_mep = rgb10A[2] - rgb10C[2]
+    point = Math.abs(rgb10C[0] - rgb10A[0]) + Math.abs(rgb10C[1] - rgb10A[1] + Math.abs(rgb10C[2] - rgb10A[2]))
+
+    return {r:r_mep, g:g_mep, b:g_mep, point:point}
+}
+
 function sPadding(NUM, LEN) {
     return (Array(LEN).join(' ') + NUM).slice(-LEN);
 }
 
-function aggregation(gamemode, message, row) {
+function aggregation_oneshot(gamemode, message, row) {
     const date = moment().local().format('YYYY-MM-DD HH:mm:ss');
     const guildId = message.guild.id;
     const channelId = message.channel.id;
@@ -63,8 +87,8 @@ function aggregation(gamemode, message, row) {
                 colorcode: colorcodeA,
                 rgb10: rgb10A,
                 rgb16: rgb16A,
-                mep: [rgb10C[0] - rgb10A[0], rgb10C[1] - rgb10A[1], rgb10C[2] - rgb10A[2]],
-                point: Math.abs(rgb10C[0] - rgb10A[0]) + Math.abs(rgb10C[1] - rgb10A[1] + Math.abs(rgb10C[2] - rgb10A[2])),
+                mep: [rgb10A[0] - rgb10C[0], rgb10A[1] - rgb10C[1], rgb10A[2] - rgb10C[2]],
+                point: Math.abs(rgb10A[0] - rgb10C[0]) + Math.abs(rgb10A[1] - rgb10C[1] + Math.abs(rgb10A[2] - rgb10C[2])),
             });
         });
 

@@ -18,8 +18,27 @@ fs.readdir('./src/.', (err, files) => {
 const client = new discord.Client();
 const db = new sqlite3.Database("./main.db");
 
+db.run("CREATE TABLE if not exists data \
+    (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, guildId TEXT, channelId TEXT, gamemode TEXT, colorcode TEXT)");
+
 db.run("CREATE TABLE if not exists server \
     (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, guild TEXT)");
+
+db.run("CREATE TABLE if not exists ccimages \
+    (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, colorcode TEXT)");
+
+db.run("CREATE TABLE if not exists winner \
+    (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, guildId TEXT, channelId TEXT, userId TEXT,userName TEXT)");
+
+db.run("CREATE TABLE if not exists notice \
+    (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, guildId TEXT, channelId TEXT)");
+
+db.run("CREATE TABLE if not exists oneshot \
+    (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, guildId TEXT, channelId TEXT, userId TEXT,userName TEXT, colorcode TEXT)");
+
+db.run("CREATE TABLE if not exists dm \
+    (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, authorId TEXT, colorcode TEXT)");
+
 
 http.createServer(function (req, res) {
     if (req.method == 'POST') {
@@ -57,41 +76,52 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 
 client.on('message', message => {
     if (message.author.bot) return;
-    const prefix = '!'
-    const [command, ...args] = message.content.slice(prefix.length).split(/\s+/)
+    const [command, ...args] = message.content.split(/\s+/)
 
-    src.winner.winnerc(message);
-    if (command === 'tcc') {
-        if (args[0] == 'help') {
-            src.help.helpc(message);
-        } else if (args[0] == 'training' || args[0] === "0") {
-            src.training.trainingStart(message);
-
-        } else if (args[0] == 'oneshot' || args[0] === "1") {
-            src.oneshot.oneshotc(message);
-
-        } else if (args[0] == 'notice') {
-            const guildId = message.guild.id;
-
-            if (args[1] == 'rm') {
-                src.notice.noticeDel(guildId);
-            } else if (args[1] == 'send') {
-                src.notice.noticec(guildId);
-            } else {
-                src.notice.noticeAdd(message);
-            }
+    if (message.channel.type == 'dm') {
+        if (command === 'start') {
+            src.training.trainingDMStart(message);
+        } else if (message.content.match('^#([a-fA-F0-9]{6})$')) {
+            src.training.trainingDM(message);
+        } else if (message.content.match('^#')) {
+            message.react('❌')
+            message.author.send('カラーコードじゃない!!!');
         }
-    } else if (message.content.match('^#([a-fA-F0-9]{6})$')) {
-        src.getcc.getcolorcodec(message);
 
-    } else if (message.content.match('^#')) {
-        message.react('❌')
-        message.channel.send('カラーコードじゃない!!!');
+    } else {
+        src.winner.winnerc(message);
+        if (command === '!tcc') {
+            if (args[0] == 'help') {
+                src.help.helpc(message);
+            } else if (args[0] == 'training' || args[0] === "0") {
+                src.training.trainingStart(message);
 
-    } else if (message.content.match(/check/)) {
-        src.finish.checkc(message);
-    } else if (message.content.match(/fin/)) {
-        src.finish.finc(message);
+            } else if (args[0] == 'oneshot' || args[0] === "1") {
+                src.oneshot.oneshotc(message);
+
+            } else if (args[0] == 'notice') {
+                const guildId = message.guild.id;
+
+                if (args[1] == 'rm') {
+                    src.notice.noticeDel(guildId);
+                } else if (args[1] == 'send') {
+                    src.notice.noticec(guildId);
+                } else {
+                    src.notice.noticeAdd(message);
+                }
+            }
+        } else if (message.content.match('^#([a-fA-F0-9]{6})$')) {
+            src.getcc.getcolorcodec(message);
+
+        } else if (message.content.match('^#')) {
+            message.react('❌')
+            message.channel.send('カラーコードじゃない!!!');
+
+        } else if (message.content.match(/check/)) {
+            src.finish.checkc(message);
+        } else if (message.content.match(/fin/)) {
+            src.finish.finc(message);
+        }
     }
 });
 
