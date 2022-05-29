@@ -107,6 +107,9 @@ client.on('message', message => {
             } else if (args[0] == 'perfectH' || args[0] === "3") {
                 src.perfect.perfectHc(message);
 
+            } else if (args[0] == 'random') {
+                src.random.randomc(message);
+
             }
 
         } else if (message.content.match('^#([a-fA-F0-9]{6})$')) {

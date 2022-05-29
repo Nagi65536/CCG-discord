@@ -4,6 +4,10 @@ exports.helpc = function (message) {
 > コマンド
     !tcc [gamemode]
       指定したゲームを開始します
+
+    !tcc random (num)
+      ランダムな色を送信します
+      (num) に 1~5 の数字を指定すると複数送信されます
     
     !tcc help
       ヘルプを表示します

@@ -36,9 +36,7 @@ exports.generateCC = function (message, text) {
         if (fs.existsSync(path)) {
             message.channel.send(text, { files: [path] });
             break
-        } else {
-            sleep.sleep(1)
-        }
+        } 
     }
     db.run(`UPDATE ccimages SET date="${date}" WHERE colorcode="${colorcode}"`);
 
@@ -70,13 +68,48 @@ exports.generateImage = function (message, colorcode) {
         if (fs.existsSync(path)) {
             message.channel.send({ files: [`images/${colorcode}.png`] });
             break
-        } else {
-            sleep.sleep(1)
-        }
+        } 
     }
 
     db.run(`UPDATE ccimages SET date="${date}" WHERE colorcode="${colorcode}"`);
     db.run(`INSERT INTO ccimages(date, colorcode) VALUES  ("${date}", "${colorcode}")`);
+}
+
+exports.generateCCImage = function (message, text) {
+    const date = moment().local().format('YYYY-MM-DD HH:mm:ss');
+    let rgb10 = []
+    let rgb16 = []
+    let colorcode = '';
+    
+    for (let i = 0; i < 3; i++) {
+        rgb10[i] = Math.floor(Math.random() * 256);
+        rgb16[i] = rgb10[i].toString(16);
+    }
+    
+    for (let i = 0; i < rgb16.length; i++) {
+        colorcode += zeroPadding(rgb16[i], 2);
+    }
+
+    const path = `images/${colorcode}.png`;
+    if (!fs.existsSync(path)) {
+        sharp({
+            create: {
+                width: 100,
+                height: 100,
+                channels: 3,
+                background: { r: rgb10[0], g: rgb10[1], b: rgb10[2] }
+            }
+        }).toFile(`images/${colorcode}.png`);
+    }
+    while (true) {
+        if (fs.existsSync(path)) {
+            message.channel.send(`#${colorcode}`, { files: [path] });
+            break
+        } 
+    }
+    db.run(`UPDATE ccimages SET date="${date}" WHERE colorcode="${colorcode}"`);
+
+    return colorcode;
 }
 
 exports.generateCCdm = function (message, text) {
@@ -109,9 +142,7 @@ exports.generateCCdm = function (message, text) {
         if (fs.existsSync(path)) {
             message.author.send(text, { files: [path] });
             break
-        } else {
-            sleep.sleep(1)
-        }
+        } 
     }
     db.run(`INSERT INTO ccimages(date, colorcode) VALUES ("${date}", "${colorcode}")`);
 
@@ -143,9 +174,7 @@ exports.generateImagedm = function (message) {
         if (fs.existsSync(path)) {
             message.author.send({ files: [`images/${colorcode}.png`] });
             break
-        } else {
-            sleep.sleep(1)
-        }
+        } 
     }
 
     db.run(`INSERT INTO ccimages(date, colorcode) VALUES  ("${date}", "${colorcode}")`);
