@@ -41,14 +41,16 @@ exports.removeall = function () {
     const tables = ['data', 'oneshot', 'dm']
 
     fs.readdir('images', function (err, files) {
-        files.forEach(file => {
-            fs.unlink(`images/${file}`, function (err) {
-                if (err) {
-                    throw (err);
-                }
-                console.log(`deleted ${file}`);
+        if (files) {
+            files.forEach(file => {
+                fs.unlink(`images/${file}`, function (err) {
+                    if (err) {
+                        throw (err);
+                    }
+                    console.log(`deleted ${file}`);
+                });
             });
-        });
+        }
 
         db.run(`DELETE FROM ccimages`);
         db.run(`DELETE FROM data`);
