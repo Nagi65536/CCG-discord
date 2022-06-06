@@ -53,7 +53,7 @@ exports.compare_cc = function (colorcodeC, colorcodeA) {
     r_mep = rgb10A[0] - rgb10C[0]
     g_mep = rgb10A[1] - rgb10C[1]
     b_mep = rgb10A[2] - rgb10C[2]
-    point = Math.abs(rgb10C[0] - rgb10A[0]) + Math.abs(rgb10C[1] - rgb10A[1] + Math.abs(rgb10C[2] - rgb10A[2]))
+    point = Math.abs(rgb10C[0] - rgb10A[0]) + Math.abs(rgb10C[1] - rgb10A[1]) + Math.abs(rgb10C[2] - rgb10A[2])
 
     return {r:r_mep, g:g_mep, b:g_mep, point:point}
 }
@@ -92,7 +92,7 @@ function aggregation_oneshot(gamemode, message, row) {
                 rgb10: rgb10A,
                 rgb16: rgb16A,
                 mep: [rgb10A[0] - rgb10C[0], rgb10A[1] - rgb10C[1], rgb10A[2] - rgb10C[2]],
-                point: Math.abs(rgb10A[0] - rgb10C[0]) + Math.abs(rgb10A[1] - rgb10C[1] + Math.abs(rgb10A[2] - rgb10C[2])),
+                point: Math.abs(rgb10A[0] - rgb10C[0]) + Math.abs(rgb10A[1] - rgb10C[1]) + Math.abs(rgb10A[2] - rgb10C[2]),
             });
         });
 
