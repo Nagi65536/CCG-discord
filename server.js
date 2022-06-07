@@ -83,7 +83,12 @@ client.on('message', message => {
             src.finish.finDM(message);
         } else if (message.content.match('^#([a-fA-F0-9]{6})$')) {
             src.training.trainingDM(message);
+        } else if (message.content.match('^.([a-fA-F0-9]{6})$')) {
+            src.training.trainingDM(message);
         } else if (message.content.match('^#')) {
+            message.react('❌')
+            message.author.send('カラーコードじゃない!!!');
+        } else if (message.content.match('^.')) {
             message.react('❌')
             message.author.send('カラーコードじゃない!!!');
         } else {
@@ -94,6 +99,23 @@ client.on('message', message => {
     } else {
         src.winner.winnerc(message);
         if (command === '!tcc') {
+          try {
+            client.channels.cache.get("983869643628380210").send({
+              embed: {
+                color: 7506394,
+                timestamp: new Date(),
+                fields: [
+                  {
+                    name: "使用コマンド",
+                    value: `${message.content}`
+                  }
+                ]
+            }
+        });
+    } catch (e) {
+        console.log(e.name);
+    }
+          
             if (args[0] == 'help') {
                 src.help.helpc(message);
             } else if (args[0] == 'training' || args[0] === "0") {
@@ -117,6 +139,13 @@ client.on('message', message => {
             src.getcc.getcolorcodec(message);
 
         } else if (message.content.match('^#')) {
+            message.react('❌')
+            message.channel.send('カラーコードじゃない!!!');
+
+        } else if (message.content.match('^.([a-fA-F0-9]{6})$')) {
+            src.getcc.getcolorcodec(message);
+
+        } else if (message.content.match('^.')) {
             message.react('❌')
             message.channel.send('カラーコードじゃない!!!');
 
@@ -170,7 +199,7 @@ client.on("guildDelete", guild => {
     }
 
     try {
-        client.channels.cache.get("977519789327126570").send({
+        client.channels.cache.get("977890366378364978").send({
             embed: {
                 title: "サーバー脱退Log",
                 color: 0,
@@ -195,3 +224,4 @@ client.on("guildDelete", guild => {
         console.log(e.name);
     }
 });
+
